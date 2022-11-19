@@ -48,7 +48,15 @@ public class ChiTietComBo {
     @Column(name = "SoLuongMonAn", nullable = false)
     private Integer soLuongMonAn;
 
+    public Object[] toDataRow() {
+        return new Object[]{monAn, comBo, soLuongMonAn};
+    }
+
     public Object[] toDataRow(int stt) {
         return new Object[]{stt, comBo.getMaCB(), comBo.getTenCB(), monAn.getTenMonAn(), soLuongMonAn};
+    }
+
+    public Object[] toShowData(int stt) {
+        return new Object[]{stt, comBo.getTenCB(), monAn.getTenMonAn(), soLuongMonAn};
     }
 }

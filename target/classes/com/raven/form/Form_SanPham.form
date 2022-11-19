@@ -113,11 +113,6 @@
         <Component class="com.raven.swing.SearchText" name="searchText1">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="E:\SOF2041_IT17317_BLOCK1\Thanh\src\main\java\com\raven\icon\search.png"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton9">
           <Properties>

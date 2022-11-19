@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,36 +18,26 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
-
 @Entity
-@Table(name = "Chuc_Vu")
+@Table(name = "Chi_Tiet_Ban_HoaDon")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class ChucVu {
-
+public class ChiTietBanHoaDon {
     @Id
     @GenericGenerator(name = "generator", strategy = "guid", parameters = {})
     @GeneratedValue(generator = "generator")
-    @Column(name = "IdCV", columnDefinition = "uniqueidentifier", nullable = false)
+    @Column(name = "Id", columnDefinition = "uniqueidentifier", nullable = false)
     private String id;
-
-    @Column(name = "MaCV", nullable = false)
-    private String ma;
-
-    @Column(name = "TenCV", nullable = false)
-    private String ten;
-
-    @Column(name = "TrangThai")
-    private Integer trangThai;
-
-//    @OneToMany(mappedBy = "chucVu", fetch = FetchType.LAZY)
-//    private List<NhanVien> listNV;
     
-
-    public Object[] toDataRow() {
-        return new Object[]{ma, ten};
-    }
+    @ManyToOne
+    @JoinColumn(name = "IdHoaDon")
+    private HoaDon hd;
+    
+    @ManyToOne()
+    @JoinColumn(name = "IdBan",nullable = false)
+    private Ban ban;
+    
 }

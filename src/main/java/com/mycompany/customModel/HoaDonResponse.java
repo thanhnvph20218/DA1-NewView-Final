@@ -24,14 +24,14 @@ public class HoaDonResponse {
 
     private String ngayTao;
 
-    private Integer maBan;
+//    private Integer maBan;
 
     private Integer trangThai;
 
     private String ghiChu;
     
     public Object[] toDataRow(int stt) {
-        return new Object[]{stt, maHoaDon, maKhachHang!=null?maKhachHang:"", ngayTao, maBan, checkTrangThai(trangThai), ghiChu};
+        return new Object[]{stt, maHoaDon, maKhachHang!=null?maKhachHang:"", ngayTao, checkTrangThai(trangThai), ghiChu};
     }
 
     private String checkTrangThai(int trangThai) {

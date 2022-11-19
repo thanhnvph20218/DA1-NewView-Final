@@ -48,9 +48,9 @@ public class HoaDon {
     @JoinColumn(name = "IdKH", nullable = true)
     private KhachHang khachHang;
 
-    @ManyToOne
-    @JoinColumn(name = "IdBan", nullable = false)
-    private Ban ban;
+//    @ManyToOne
+//    @JoinColumn(name = "IdBan", nullable = false)
+//    private Ban ban;
 
     @Column(name = "NgayTao", nullable = false)
     private String ngayTao;

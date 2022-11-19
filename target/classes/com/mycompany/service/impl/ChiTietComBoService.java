@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public class ChiTietComBoService implements IChiTietComBoService<ChiTietComBo, String, Integer, ComBo, MonAn> {
+public class ChiTietComBoService implements IChiTietComBoService<ChiTietComBo, String, Integer, ComBo, MonAn, Boolean> {
 
     private IChiTietComBoRepository ctcbr = new ChiTietComBoRepository();
 
@@ -51,6 +51,7 @@ public class ChiTietComBoService implements IChiTietComBoService<ChiTietComBo, S
             return "Xoá thất bại";
         }
     }
+
     public static void main(String[] args) {
         MonAn ma = new MonAn();
         ma.setId("CFCA2AD6-A346-4C54-A3A8-279D6D782BA7");
@@ -65,4 +66,46 @@ public class ChiTietComBoService implements IChiTietComBoService<ChiTietComBo, S
         }
     }
 
+    @Override
+    public List<ChiTietComBo> getAllByComBo(ComBo id) {
+        return ctcbr.getAllByComBo(id);
+    }
+
+    @Override
+    public ChiTietComBo getOneById(ChiTietComBo chiTietComBo) {
+        ChiTietComBo cb = (ChiTietComBo) ctcbr.getOneById(chiTietComBo);
+        return cb;
+    }
+
+    @Override
+    public String updateSoLuong(ChiTietComBo chiTietComBo, ComBo comBo, int soLuong) {
+        if ((boolean) ctcbr.updateSoLuong(chiTietComBo, comBo, soLuong) == true) {
+            return "sửa thành công";
+        } else {
+            return "sửa không thành công";
+        }
+    }
+
+    public ChiTietComBo checkCTComBo(ComBo comBo, MonAn monAn) {
+        List<ChiTietComBo> ctCB = getAllByComBo(comBo);
+        for (ChiTietComBo ct : ctCB) {
+            if (monAn.getId().equals(ct.getMonAn().getId())) {
+                return ct;
+            }
+        }
+        return null;
+    }
+
+    public String saveOrUpdate(ComBo comBo, MonAn monAn, ChiTietComBo chiTietComBo) {
+        if (checkCTComBo(comBo, monAn) == null) {
+            // add
+            return add(chiTietComBo);
+        } else {
+            // update
+            // chi tiết có sẵn;
+            ChiTietComBo c = checkCTComBo(comBo, monAn);
+            int soLuong = c.getSoLuongMonAn() + chiTietComBo.getSoLuongMonAn();
+            return updateSoLuong(c, comBo, soLuong);
+        }
+    }
 }

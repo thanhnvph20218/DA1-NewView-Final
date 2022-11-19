@@ -32,7 +32,7 @@ import javax.swing.table.DefaultTableModel;
  * @author RAVEN
  */
 public class Form_HoaDon extends javax.swing.JPanel {
-    
+
     private DefaultTableModel dtmHoaDon = new DefaultTableModel();
     private List<HoaDon> listHD = new ArrayList<>();
     private HoaDonService hoaDonService = new HoaDonService();
@@ -46,7 +46,7 @@ public class Form_HoaDon extends javax.swing.JPanel {
     private NhanVienService nhanVienService = new NhanVienService();
     private NhanVien nhanV;
     private java.util.Date today = new java.util.Date();
-    
+
     public Form_HoaDon() {
         initComponents();
         this.nhanV = nhanV;
@@ -67,9 +67,7 @@ public class Form_HoaDon extends javax.swing.JPanel {
         loadCbb(listBan);
         //lbNgayGio.setText(String.valueOf(today));
     }
-    
 
-    
     private void showData(List<HoaDon> listHD) {
         if (listHD.size() > 0) {
             dtmHoaDon.setRowCount(0);
@@ -78,13 +76,13 @@ public class Form_HoaDon extends javax.swing.JPanel {
             }
         }
     }
-    
+
     private void loadCbb(List<Ban> listBan) {
         for (Ban ban : listBan) {
             dcbmChonBan.addElement(ban.getMaBan());
         }
     }
-    
+
     private void fillHD(int index, List<HoaDon> listHD) {
         HoaDon hoaDon = listHD.get(index);
         lbMaHD.setText(hoaDon.getMaHoaDon());
@@ -96,12 +94,12 @@ public class Form_HoaDon extends javax.swing.JPanel {
         Date ngayTao = Date.valueOf(hoaDon.getNgayTao());
         txtNgayTao.setDate(ngayTao);
         txtNgayThanhToan.setDate(hoaDon.getNgayThanhToan());
-        lbKhuVuc.setText(hoaDon.getBan().getKv().getTenKV());
-        txtBan.setText(String.valueOf(hoaDon.getBan().getMaBan()));
+//        lbKhuVuc.setText(hoaDon.getBan().getKv().getTenKV());
+//        txtBan.setText(String.valueOf(hoaDon.getBan().getMaBan()));
         txtNgayTao.setEnabled(false);
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -547,7 +545,7 @@ public class Form_HoaDon extends javax.swing.JPanel {
         hoaDon.setNgayTao(String.valueOf(ngayTao));
         hoaDon.setTrangThai(0);
         Ban ban = banService.getOne(cbbChonBan.getSelectedItem().toString());
-        hoaDon.setBan(ban);
+        // hoaDon.setBan(ban);
         hoaDon.setNhanVien(nhanVienService.getOne("NV1"));
         JOptionPane.showMessageDialog(this, hoaDonService.add(hoaDon));
         ban.setTrangThai(1);
@@ -582,9 +580,9 @@ public class Form_HoaDon extends javax.swing.JPanel {
             } else {
                 hoaDon.setGhiChu(txtGhiChu.getText());
                 hoaDon.setTrangThai(3);
-                Ban ban = hoaDon.getBan();
-                ban.setTrangThai(0);
-                String updateBan = banService.update(ban, String.valueOf(ban.getMaBan()));
+                // Ban ban = hoaDon.getBan();
+                // ban.setTrangThai(0);
+                //String updateBan = banService.update(ban, String.valueOf(ban.getMaBan()));
                 JOptionPane.showMessageDialog(this, hoaDonService.update(hoaDon, hoaDon.getMaHoaDon()));
                 listHD = hoaDonService.getAll();
                 showData(listHD);

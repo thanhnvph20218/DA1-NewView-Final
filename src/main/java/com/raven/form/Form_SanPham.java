@@ -64,8 +64,6 @@ public class Form_SanPham extends javax.swing.JPanel {
 
         panelBorder1.setBackground(new java.awt.Color(204, 204, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("E:\\SOF2041_IT17317_BLOCK1\\Thanh\\src\\main\\java\\com\\raven\\icon\\search.png")); // NOI18N
-
         jButton9.setBackground(new java.awt.Color(204, 204, 204));
         jButton9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton9.setText("Search");

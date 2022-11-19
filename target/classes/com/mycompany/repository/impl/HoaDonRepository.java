@@ -75,7 +75,7 @@ public class HoaDonRepository implements ICommonRepository<HoaDon, Boolean, Stri
             query.setParameter("tongTien", kh.getTongTien());
             query.setParameter("ghiTru", kh.getGhiChu());
             query.setParameter("trangThai", kh.getTrangThai());
-            query.setParameter("ban", kh.getBan());
+            //query.setParameter("ban", kh.getBan());
             query.setParameter("maHoaDon", ma);
             check = query.executeUpdate();
             transaction.commit();

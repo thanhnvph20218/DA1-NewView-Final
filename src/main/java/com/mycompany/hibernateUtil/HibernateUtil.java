@@ -5,6 +5,7 @@
 package com.mycompany.hibernateUtil;
 
 import com.mycompany.domainModel.Ban;
+import com.mycompany.domainModel.ChiTietBanHoaDon;
 import com.mycompany.domainModel.ChiTietComBo;
 import com.mycompany.domainModel.ChucVu;
 import com.mycompany.domainModel.ComBo;
@@ -43,7 +44,7 @@ public class HibernateUtil {
         properties.put(Environment.DRIVER, "com.microsoft.sqlserver.jdbc.SQLServerDriver");
         properties.put(Environment.URL, "jdbc:sqlserver://localhost:1433;databaseName=DuAn1Nhom102");
         properties.put(Environment.USER, "sa");
-        properties.put(Environment.PASS, "123123");
+        properties.put(Environment.PASS, "12123");
         properties.put(Environment.SHOW_SQL, "true");
 //        properties.put(Environment.HBM2DDL_AUTO, "create"); // tu dong tao ra cac truong trong sql
 
@@ -58,6 +59,7 @@ public class HibernateUtil {
         conf.addAnnotatedClass(HoaDonChiTiet.class);
         conf.addAnnotatedClass(KhachHang.class);
         conf.addAnnotatedClass(KhuyenMai.class);
+        conf.addAnnotatedClass(ChiTietBanHoaDon.class);
         // conf.addAnnotatedClass(KhuyenMaiChiTiet.class);
         conf.addAnnotatedClass(MonAn.class);
         conf.addAnnotatedClass(NhanVien.class);
