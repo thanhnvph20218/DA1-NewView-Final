@@ -24,7 +24,7 @@ public class HoaDonResponseRepository implements IcommonHoaDonResponseRepository
 
     @Override
     public List<HoaDonResponse> getAll() {
-        String hql = "SELECT new com.mycompany.customModel.HoaDonResponse(HD.maHoaDon,KH.ma,HD.ngayTao,HD.ban.maBan,HD.trangThai,HD.ghiChu)"
+        String hql = "SELECT new com.mycompany.customModel.HoaDonResponse(HD.maHoaDon,KH.ma,HD.ngayTao,HD.trangThai,HD.ghiChu)"
                 + fromTable + "LEFT JOIN KhachHang KH ON KH.id = HD.khachHang";
         Query query = session.createQuery(hql);
         List<HoaDonResponse> hoaDonResponses = query.getResultList();
@@ -40,7 +40,7 @@ public class HoaDonResponseRepository implements IcommonHoaDonResponseRepository
 
     @Override
     public List<HoaDonResponse> getByTrangThai(Integer trangThai) {
-        String hql = "SELECT new com.mycompany.customModel.HoaDonResponse(HD.maHoaDon,KH.ma,HD.ngayTao,HD.ban.maBan,HD.trangThai,HD.ghiChu)"
+        String hql = "SELECT new com.mycompany.customModel.HoaDonResponse(HD.maHoaDon,KH.ma,HD.ngayTao,HD.trangThai,HD.ghiChu)"
                 + fromTable + "LEFT JOIN KhachHang KH ON KH.id = HD.khachHang WHERE HD.trangThai = :trangThai";
         Query query = session.createQuery(hql);
         query.setParameter("trangThai", trangThai);
