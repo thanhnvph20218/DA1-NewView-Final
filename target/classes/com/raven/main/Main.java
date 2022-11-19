@@ -18,6 +18,7 @@ import com.raven.form.Form_TaiKhoan;
 import com.raven.form.Form_ThongKe;
 import java.awt.Color;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -77,7 +78,16 @@ public class Main extends javax.swing.JFrame {
                 } else if (index == 9) {
                     setForm(form9);
                 } else if (index == 10) {
-                    System.exit(0);
+                    int checkOut = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất không");
+                    if (checkOut == JOptionPane.NO_OPTION) {
+                        return;
+                    } else if (checkOut == JOptionPane.CLOSED_OPTION) {
+                        return;
+                    } else if (checkOut == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    } else {
+                        System.exit(0);
+                    }
                 }
             }
         });
