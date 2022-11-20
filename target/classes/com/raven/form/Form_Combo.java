@@ -56,7 +56,7 @@ public class Form_Combo extends javax.swing.JPanel {
     private ComBo comBo;
     private MonAn monAn;
     private ChiTietComBo chiTietComBo;
-
+    
     public Form_Combo() {
         initComponents();
         tbComBo.setModel(dtComBo);
@@ -73,12 +73,12 @@ public class Form_Combo extends javax.swing.JPanel {
         cbbMaNhanVien.setModel(dcbNhanVien);
         cbbLoaiMonAn.setModel(dcbLoai);
         //
-//        showDataComBo(listComBo = comBoService.getAll());
+        showDataComBo(listComBo = comBoService.getAllByTrangThai(0));
 //        showDataSanPham(listMonAn = monAnService.getAll());
         txtMa.setEnabled(false);
         setCbb();
     }
-
+    
     private void showDataComBo(List<ComBo> list) {
         dtComBo.setRowCount(0);
         int i = 1;
@@ -86,7 +86,7 @@ public class Form_Combo extends javax.swing.JPanel {
             dtComBo.addRow(cb.toDataRow(i++));
         }
     }
-
+    
     private void showDataCTComBo(List<ChiTietComBo> list) {
         dtCTComBo.setRowCount(0);
         int i = 1;
@@ -94,7 +94,7 @@ public class Form_Combo extends javax.swing.JPanel {
             dtCTComBo.addRow(cb.toShowData(i++));
         }
     }
-
+    
     private void showDataSanPham(List<MonAn> list) {
         dtSanPham.setRowCount(0);
         int i = 1;
@@ -102,17 +102,19 @@ public class Form_Combo extends javax.swing.JPanel {
             dtSanPham.addRow(cb.toDataRow(i++));
         }
     }
-
+    
     private void setCbb() {
-        List<NhanVien> list = nhanVienService.getAll();
-        for (NhanVien nv : list) {
+        List<NhanVien> listNhanVien = nhanVienService.getAll();
+        for (NhanVien nv : listNhanVien) {
             dcbNhanVien.addElement(nv.getMa());
         }
-
-        dcbLoai.addElement("Món Ăn");
-        dcbLoai.addElement("Nước Uống");
+        
+        List<DanhMuc> listDanhMuc = danhMucService.getAll();
+        for (DanhMuc dv : listDanhMuc) {
+            dcbLoai.addElement(dv.getMaDanhMuc());
+        }
     }
-
+    
     private void clear() {
         txtDonGia.setText("");
         txtMa.setText("");
@@ -121,7 +123,7 @@ public class Form_Combo extends javax.swing.JPanel {
         cbbLoaiMonAn.setSelectedIndex(0);
         rdoApDung.setSelected(true);
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -131,7 +133,6 @@ public class Form_Combo extends javax.swing.JPanel {
         panelBorder1 = new com.raven.swing.PanelBorder();
         txtSearch = new com.raven.swing.SearchText();
         jLabel1 = new javax.swing.JLabel();
-        btnSearch = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -165,12 +166,15 @@ public class Form_Combo extends javax.swing.JPanel {
         jRadioButton8 = new javax.swing.JRadioButton();
         jRadioButton9 = new javax.swing.JRadioButton();
         jRadioButton10 = new javax.swing.JRadioButton();
+        lbLoaiMon = new javax.swing.JLabel();
 
         panelBorder1.setBackground(new java.awt.Color(204, 204, 255));
 
-        btnSearch.setBackground(new java.awt.Color(204, 204, 204));
-        btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnSearch.setText("Search");
+        txtSearch.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchCaretUpdate(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
@@ -430,6 +434,9 @@ public class Form_Combo extends javax.swing.JPanel {
             }
         });
 
+        lbLoaiMon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbLoaiMon.setText("Hình Ảnh       :");
+
         javax.swing.GroupLayout panelBorder1Layout = new javax.swing.GroupLayout(panelBorder1);
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
@@ -440,7 +447,9 @@ public class Form_Combo extends javax.swing.JPanel {
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(24, 24, 24)
-                        .addComponent(cbbLoaiMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbbLoaiMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbLoaiMon))
                     .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -448,9 +457,7 @@ public class Form_Combo extends javax.swing.JPanel {
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnSearch)))
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -481,9 +488,7 @@ public class Form_Combo extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSearch)))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -501,7 +506,8 @@ public class Form_Combo extends javax.swing.JPanel {
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel3)
-                    .addComponent(cbbLoaiMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbLoaiMonAn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbLoaiMon))
                 .addGap(3, 3, 3)
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
@@ -593,19 +599,21 @@ public class Form_Combo extends javax.swing.JPanel {
                 monAn = listMonAn.get(index);
                 // lấy số lượng món ăn
                 String soLuongNhap = JOptionPane.showInputDialog("xin mời nhập số lượng");
-                if (soLuongNhap.matches("[0-9]+")) {
-                    // tạo mới 1 chi tiết combo sau đó add vòa combo
-                    ChiTietComBo chiTietComBo = new ChiTietComBo(null, comBo, monAn, Integer.valueOf(soLuongNhap)); // chứa số lượng vừa nhập
+                if (soLuongNhap != null) {
+                    if (soLuongNhap.matches("[0-9]+")) {
+                        // tạo mới 1 chi tiết combo sau đó add vòa combo
+                        ChiTietComBo chiTietComBo = new ChiTietComBo(null, comBo, monAn, Integer.valueOf(soLuongNhap)); // chứa số lượng vừa nhập
 
-                    // 
+                        // 
 //        String add = chiTietComBoService.add(chiTietComBo);
-                    String add = chiTietComBoService.saveOrUpdate(comBo, monAn, chiTietComBo);
-                    JOptionPane.showMessageDialog(this, add);
+                        String add = chiTietComBoService.saveOrUpdate(comBo, monAn, chiTietComBo);
+                        JOptionPane.showMessageDialog(this, add);
 
-                    // show lại chi tiết combo
-                    showDataCTComBo(listCTComBo = chiTietComBoService.getAllByComBo(comBo));
-                } else {
-                    JOptionPane.showMessageDialog(this, "vui lòng nhập số");
+                        // show lại chi tiết combo
+                        showDataCTComBo(listCTComBo = chiTietComBoService.getAllByComBo(comBo));
+                    } else {
+                        JOptionPane.showMessageDialog(this, "vui lòng nhập số");
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "vui lòng chọn combo chờ áp dụng");
@@ -618,15 +626,10 @@ public class Form_Combo extends javax.swing.JPanel {
     private void cbbLoaiMonAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbLoaiMonAnActionPerformed
         // TODO add your handling code here:
         String loaiDanhMuc = (String) cbbLoaiMonAn.getSelectedItem();
-        if (loaiDanhMuc.equalsIgnoreCase("Món Ăn")) {
-            DanhMuc danhMuc = danhMucService.getOne("DM1");
-            listMonAn = monAnService.getMonAnByDanhMuc(danhMuc);
-            showDataSanPham(listMonAn);
-        } else {
-            DanhMuc danhMuc = danhMucService.getOne("DM2");
-            listMonAn = monAnService.getMonAnByDanhMuc(danhMuc);
-            showDataSanPham(listMonAn);
-        }
+        DanhMuc danhMuc = danhMucService.getOne(loaiDanhMuc);
+        lbLoaiMon.setText(danhMuc.getTenDanhMuc());
+        listMonAn = monAnService.getMonAnByDanhMuc(danhMuc);
+        showDataSanPham(listMonAn);
     }//GEN-LAST:event_cbbLoaiMonAnActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -648,16 +651,25 @@ public class Form_Combo extends javax.swing.JPanel {
 
     private void jRadioButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton9ActionPerformed
         // TODO add your handling code here:
+        comBo = null;
+        clear();
+        showDataCTComBo(listCTComBo = chiTietComBoService.getAllByComBo(comBo));
         showDataComBo(listComBo = comBoService.getAllByTrangThai(0));
     }//GEN-LAST:event_jRadioButton9ActionPerformed
 
     private void jRadioButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton8ActionPerformed
         // TODO add your handling code here:
+        comBo = null;
+        clear();
+        showDataCTComBo(listCTComBo = chiTietComBoService.getAllByComBo(comBo));
         showDataComBo(listComBo = comBoService.getAllByTrangThai(2));
     }//GEN-LAST:event_jRadioButton8ActionPerformed
 
     private void jRadioButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton10ActionPerformed
         // TODO add your handling code here:
+        comBo = null;
+        clear();
+        showDataCTComBo(listCTComBo = chiTietComBoService.getAllByComBo(comBo));
         showDataComBo(listComBo = comBoService.getAllByTrangThai(1));
     }//GEN-LAST:event_jRadioButton10ActionPerformed
 
@@ -690,13 +702,16 @@ public class Form_Combo extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tbCTComboMouseClicked
 
+    private void txtSearchCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchCaretUpdate
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchCaretUpdate
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnApDung;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnRemove;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -720,6 +735,7 @@ public class Form_Combo extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel lbLoaiMon;
     private com.raven.swing.PanelBorder panelBorder1;
     private javax.swing.JRadioButton rdoApDung;
     private javax.swing.JRadioButton rdoChoApDung;

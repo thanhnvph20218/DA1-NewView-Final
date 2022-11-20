@@ -66,7 +66,7 @@ public class MonAn {
 //    @OneToMany(mappedBy = "monAn", fetch = FetchType.LAZY)
 //    private List<HoaDonChiTiet> listHDCT;
     public Object[] toDataRow(int stt) {
-        return new Object[]{stt, maMonAn, tenMonAn, donGia, donViTinh};
+        return new Object[]{stt, maMonAn, tenMonAn, donGia + "K", donViTinh};
     }
 
     public Object[] toDataRowViewKM(int stt) {

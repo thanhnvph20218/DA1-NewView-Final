@@ -34,6 +34,13 @@ public class MonAnRepository implements ICommonRepository<MonAn, Boolean, String
         return monAns;
     }
 
+    public List<MonAn> getAllMonAn() {
+        String hql = fromTable + "ORDER BY maMonAn";
+        Query query = session.createQuery(hql);
+        List<MonAn> monAns = query.getResultList();
+        return monAns;
+    }
+
     @Override
     public MonAn getOne(String ma) {
         String hql = fromTable + "WHERE maMonAn = :ma";
@@ -86,7 +93,7 @@ public class MonAnRepository implements ICommonRepository<MonAn, Boolean, String
 
     @Override
     public Boolean remove(String ma) {
-        String hql = "UPDATE " + fromTable + "SET trangThai = 0 "
+        String hql = "UPDATE " + fromTable + "SET trangThai = 1 "
                 + "WHERE maMonAn =:ma";
         Transaction transaction = null;
         int check = 0;
@@ -144,6 +151,14 @@ public class MonAnRepository implements ICommonRepository<MonAn, Boolean, String
             e.printStackTrace();
         }
         return check > 0;
+    }
+
+    public List<MonAn> getAllMonAnByTrangThai(int trangThai) {
+        String hql = fromTable + "WHERE trangThai = :TrangThai ORDER BY maMonAn";
+        Query query = session.createQuery(hql);
+        query.setParameter("TrangThai", trangThai);
+        List<MonAn> monAns = query.getResultList();
+        return monAns;
     }
 
     public static void main(String[] args) {

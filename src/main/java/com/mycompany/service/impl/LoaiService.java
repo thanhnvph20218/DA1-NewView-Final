@@ -4,11 +4,15 @@
  */
 package com.mycompany.service.impl;
 
+import com.mycompany.domainModel.DanhMuc;
 import com.mycompany.domainModel.Loai;
+import com.mycompany.hibernateUtil.HibernateUtil;
 import com.mycompany.repository.impl.LoaiRepository;
 import com.mycompany.service.ICommonService;
 import com.mycompany.util.ThongBao;
 import java.util.List;
+import javax.persistence.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -26,7 +30,7 @@ public class LoaiService implements ICommonService<Loai, String> {
 
     @Override
     public Loai getOne(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return loaiRepo.getOne(ma);
     }
 
     @Override
@@ -42,6 +46,10 @@ public class LoaiService implements ICommonService<Loai, String> {
     @Override
     public String remove(String ma) {
         return thongBao.thongBaoDELETE(loaiRepo.remove(ma));
+    }
+
+    public Loai getOneByDanhMuc(DanhMuc danhMuc) {
+        return loaiRepo.getOneByDanhMuc(danhMuc);
     }
 
 }

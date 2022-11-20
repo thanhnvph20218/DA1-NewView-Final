@@ -52,6 +52,10 @@ public class MonAnService implements com.mycompany.service.ICommonService<MonAn,
         return monAnRepo.getMonAnByKhuyenMai(khuyenMai);
     }
 
+    public List<MonAn> getMonAnByTrangThai(int trangThai) {
+        return monAnRepo.getAllMonAnByTrangThai(trangThai);
+    }
+
     public String themKMChoMonAn(KhuyenMai khuyenMai, String maMA) {
         if (monAnRepo.themKMChoMonAn(khuyenMai, maMA)) {
             return "Áp dụng KM cho món ăn thành công";
@@ -61,10 +65,21 @@ public class MonAnService implements com.mycompany.service.ICommonService<MonAn,
     }
 
     public static void main(String[] args) {
-        List<MonAn> monAn = new MonAnService().getAll();
-//        for (MonAn monAn1 : monAn) {
-//            System.out.println(monAn1.getMaMonAn()+" "+monAn1.getTenMonAn()+" "+monAn1.getLoai().());
-//        }
+    }
+
+    public String maTuDong() {
+        List<MonAn> listMon = new MonAnService().getAllMonAn();
+        int index = listMon.size();
+        String viTri = "";
+        String maMon = "";
+        viTri += listMon.get(index - 1).getMaMonAn();
+        int soMa = Integer.valueOf(viTri.substring(2)) + 1;
+        maMon = "MA" + soMa;
+        return maMon;
+    }
+
+    private List<MonAn> getAllMonAn() {
+        return monAnRepo.getAllMonAn();
     }
 
     public List<MonAn> getMonAnByDanhMuc(DanhMuc danhMuc) {

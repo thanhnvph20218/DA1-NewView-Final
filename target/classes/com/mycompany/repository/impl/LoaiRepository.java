@@ -24,7 +24,7 @@ public class LoaiRepository implements ICommonRepository<Loai, Boolean, String> 
     public List<Loai> getAll() {
         List<Loai> listLoai = new ArrayList<>();
         try ( Session session = HibernateUtil.getFactory().openSession()) {
-            Query query = session.createQuery("FROM Loai");
+            Query query = session.createQuery("FROM Loai ORDER BY maLoai");
             listLoai = query.getResultList();
         } finally {
             return listLoai;
@@ -106,6 +106,17 @@ public class LoaiRepository implements ICommonRepository<Loai, Boolean, String> 
             }
         } finally {
             return check > 0;
+        }
+    }
+
+    public Loai getOneByDanhMuc(DanhMuc danhMuc) {
+        Loai loai = new Loai();
+        try ( Session session = HibernateUtil.getFactory().openSession()) {
+            Query query = session.createQuery("FROM Loai WHERE danhMuc = :DanhMuc");
+            query.setParameter("DanhMuc", danhMuc);
+            loai = (Loai) query.getSingleResult();
+        } finally {
+            return loai;
         }
     }
 
