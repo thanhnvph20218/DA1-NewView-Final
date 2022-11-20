@@ -152,9 +152,9 @@ public class Form_Home extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         btnTaoHoaDon = new javax.swing.JButton();
         radioTatCa = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
+        rdoChoThanhToan = new javax.swing.JRadioButton();
+        rdoDaHuy = new javax.swing.JRadioButton();
+        rdoDaThanhToan = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         tbHoaDon = new javax.swing.JTable();
@@ -250,15 +250,35 @@ public class Form_Home extends javax.swing.JPanel {
 
         buttonGroup1.add(radioTatCa);
         radioTatCa.setText("Tất Cả");
+        radioTatCa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioTatCaActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Chờ Thanh Toán");
+        buttonGroup1.add(rdoChoThanhToan);
+        rdoChoThanhToan.setText("Chờ Thanh Toán");
+        rdoChoThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoChoThanhToanActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Đã Hủy");
+        buttonGroup1.add(rdoDaHuy);
+        rdoDaHuy.setText("Đã Hủy");
+        rdoDaHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoDaHuyActionPerformed(evt);
+            }
+        });
 
-        buttonGroup1.add(jRadioButton5);
-        jRadioButton5.setText("Đã Thanh Toán");
+        buttonGroup1.add(rdoDaThanhToan);
+        rdoDaThanhToan.setText("Đã Thanh Toán");
+        rdoDaThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoDaThanhToanActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("HÓA ĐƠN CT");
@@ -511,11 +531,11 @@ public class Form_Home extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(radioTatCa)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jRadioButton2)
+                                        .addComponent(rdoChoThanhToan)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jRadioButton3)
+                                        .addComponent(rdoDaHuy)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jRadioButton5)
+                                        .addComponent(rdoDaThanhToan)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(panelBorder1Layout.createSequentialGroup()
                                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -571,10 +591,10 @@ public class Form_Home extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(radioTatCa)
-                            .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton3)
+                            .addComponent(rdoChoThanhToan)
+                            .addComponent(rdoDaHuy)
                             .addComponent(jLabel3)
-                            .addComponent(jRadioButton5))
+                            .addComponent(rdoDaThanhToan))
                         .addGap(9, 9, 9))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -901,7 +921,7 @@ public class Form_Home extends javax.swing.JPanel {
             String maHD = hoaDonUtil.zenMaThuyDuong(listHD);
             String ngayTao = new HoaDonUtil().layNgay();
             String ngayThanhToan = new HoaDonUtil().layNgay();
-            
+
             // fixx cứng nv
             NhanVien nhanVien = (NhanVien) nvs.getOne("NV1");
             // lấy bàn theo mã bàn lấy từ label mã bàn
@@ -964,6 +984,34 @@ public class Form_Home extends javax.swing.JPanel {
         // TODO add your handling code here:
         fillTienThuaChuyenKhoan();
     }//GEN-LAST:event_txtChuyenKhoanCaretUpdate
+
+    private void radioTatCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioTatCaActionPerformed
+        // TODO add your handling code here:
+        checkRdo = 3;
+        lstHoaDonResponses = hoaDonResponseService.getAll();
+        showDataHoaDon(lstHoaDonResponses);
+    }//GEN-LAST:event_radioTatCaActionPerformed
+
+    private void rdoChoThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoChoThanhToanActionPerformed
+        // TODO add your handling code here:
+        checkRdo = 0;
+        lstHoaDonResponses = hoaDonResponseService.getByTrangThai(0);
+        showDataHoaDon(lstHoaDonResponses);
+    }//GEN-LAST:event_rdoChoThanhToanActionPerformed
+
+    private void rdoDaHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaHuyActionPerformed
+        // TODO add your handling code here:
+        checkRdo = 2;
+        lstHoaDonResponses = hoaDonResponseService.getByTrangThai(2);
+        showDataHoaDon(lstHoaDonResponses);
+    }//GEN-LAST:event_rdoDaHuyActionPerformed
+
+    private void rdoDaThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaThanhToanActionPerformed
+        // TODO add your handling code here:
+        checkRdo = 1;
+        lstHoaDonResponses = hoaDonResponseService.getByTrangThai(1);
+        showDataHoaDon(lstHoaDonResponses);
+    }//GEN-LAST:event_rdoDaThanhToanActionPerformed
 
     private void fillTienThuaChuyenKhoan() {
 //        txtTienMat.setText("0");
@@ -1111,9 +1159,6 @@ public class Form_Home extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton5;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
@@ -1126,6 +1171,9 @@ public class Form_Home extends javax.swing.JPanel {
     private javax.swing.JLayeredPane panel;
     private com.raven.swing.PanelBorder panelBorder1;
     private javax.swing.JRadioButton radioTatCa;
+    private javax.swing.JRadioButton rdoChoThanhToan;
+    private javax.swing.JRadioButton rdoDaHuy;
+    private javax.swing.JRadioButton rdoDaThanhToan;
     private com.raven.swing.SearchText searchText1;
     private javax.swing.JTable tbBan;
     private javax.swing.JTable tbHoaDon;
