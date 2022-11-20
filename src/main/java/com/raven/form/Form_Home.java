@@ -63,12 +63,19 @@ public class Form_Home extends javax.swing.JPanel {
     private ICommonService monAnService = new MonAnService();
     private ICommonService banService = new BanService();
     private IHoaDonChiTiet hdctService = new HoaDonChiTietService();
-    private GiaoDichService gds2 = new GiaoDichService();
+    private GiaoDichService gds2 = new GiaoDichService();// khai báo như này mới có hàm fill tiên thừa
     private IHoaDonChiTietResponseService hdctResponseService = new HoaDonChiTietResponseService();
+    // để khi hoá đơn có trạng thái đã thanh toán thì k thể thêm sản phẩm
+    // = 0  thì là đang chờ thanh toán, 1 là đã thanh toán, 3 là đã huỷ
     private int checkTrangThaiHD;
-    private int checkTaoHD = 1;
+    // để khi chưa chọn hoá đơn đã ấn vào món ăn 
+    // = 1 thì k cho thêm , 0 thì cho thêm vào hdct
     private int checkMonAn = 1;
+    // để khi click vào rdo nào thì hiện ra hoa đơn có trạng thái như thế
+    //tất cả là 3 , chờ thanh toán là 0, đã thanh toán là 1, đã huỷ là 2
     private int checkRdo = 0;
+    // khi click vào button đồ ăn thì hiện thị lên đồ ăn
+    // 1 là đồ ăn, 2 là đồ uống
     private int checkBtnMonAn = 1;
     private List<HoaDon> listHD = new ArrayList<>();
     private HoaDonService hoaDonService = new HoaDonService();
@@ -143,7 +150,7 @@ public class Form_Home extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         tbHoaDonCT = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jButton11 = new javax.swing.JButton();
+        btnTaoHoaDon = new javax.swing.JButton();
         radioTatCa = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
@@ -174,7 +181,7 @@ public class Form_Home extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        btnThanhToan = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -232,12 +239,12 @@ public class Form_Home extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("HÓA ĐƠN");
 
-        jButton11.setBackground(new java.awt.Color(51, 255, 0));
-        jButton11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton11.setText("TẠO HĐ");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        btnTaoHoaDon.setBackground(new java.awt.Color(51, 255, 0));
+        btnTaoHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTaoHoaDon.setText("TẠO HĐ");
+        btnTaoHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                btnTaoHoaDonActionPerformed(evt);
             }
         });
 
@@ -426,12 +433,12 @@ public class Form_Home extends javax.swing.JPanel {
         jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tầng 1", "Tầng 2" }));
 
-        jButton2.setBackground(new java.awt.Color(51, 255, 51));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setText("Thanh Toán");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnThanhToan.setBackground(new java.awt.Color(51, 255, 51));
+        btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThanhToan.setText("Thanh Toán");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnThanhToanActionPerformed(evt);
             }
         });
 
@@ -484,7 +491,7 @@ public class Form_Home extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTaoHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10))
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -546,7 +553,7 @@ public class Form_Home extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)
+                                .addComponent(btnThanhToan)
                                 .addContainerGap())))))
             .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
@@ -560,7 +567,7 @@ public class Form_Home extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
-                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTaoHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(radioTatCa)
@@ -608,7 +615,7 @@ public class Form_Home extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                    .addComponent(btnThanhToan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
                         .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -652,7 +659,7 @@ public class Form_Home extends javax.swing.JPanel {
 
     private void tbMonAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMonAnMouseClicked
 // TODO add your handling code here:
-        int soLuong = Integer.valueOf(JOptionPane.showInputDialog("Mời bạn nhập số lượng"));
+        // check nếu bấm vào btn món ăn thì thêm món ăn
         if (checkBtnMonAn == 1) {
             if (checkTrangThaiHD == 1) {
                 JOptionPane.showMessageDialog(this, "Không thể thêm sản phẩm");
@@ -661,18 +668,23 @@ public class Form_Home extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn hoá đơn");
                 return;
             } else {
+                int soLuong = Integer.valueOf(JOptionPane.showInputDialog("Mời bạn nhập số lượng"));
                 int index = tbMonAn.getSelectedRow();
-                MonAnResponse mar = lstMonAnResponses.get(index);
-                MonAn ma = (MonAn) mas.getOne(mar.getMaMonAn());
+                MonAnResponse mar = lstMonAnResponses.get(index);// lấy ra món ăn đang chọn
+                MonAn ma = (MonAn) mas.getOne(mar.getMaMonAn());// chuyển đổi về món ăn để add vào hdct
                 HoaDon hd = (HoaDon) hds.getOne(lbMaHDThanhToan.getText());
+                // khai báo hdct để add
                 HoaDonChiTiet hdct = new HoaDonChiTiet(null, ma, hd, null, soLuong, ma.getDonGia(), 0, BigDecimal.valueOf(0));
+                //add hdct
                 String addHDCT = (String) hdctService.add(hdct);
                 lstHDCTResponses = hdctResponseService.getAll(hd);
                 showDataHDCT(lstHDCTResponses);
+                //gọi lại fill tổng tiền để cập nhập lại tổng tiền mỗi khi thêm món ăn vào hdct
                 fillTongTien();
                 return;
             }
         }
+        //check khi click vào btn đồ uống thì thêm đồ uống vào hdct
         if (checkBtnMonAn == 2) {
             //thêm sản phẩm nước uống vào hdct
         } else {
@@ -681,6 +693,7 @@ public class Form_Home extends javax.swing.JPanel {
             } else if (checkMonAn == 1) {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn hoá đơn");
             } else {
+                int soLuong = Integer.valueOf(JOptionPane.showInputDialog("Mời bạn nhập số lượng"));
                 int index = tbMonAn.getSelectedRow();
                 ComboResponse cbr = lstComboResponses.get(index);
                 ComBo cb = (ComBo) cbs.getOne(cbr.getMaCB());
@@ -695,16 +708,24 @@ public class Form_Home extends javax.swing.JPanel {
 
     private void tbHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHoaDonMouseClicked
         // TODO add your handling code here:
+        // set lại tiền thừa với tổng tiền  = 0.0 để cho dữ liệu được chính xác hơn
         txtTienThua.setText("0.0");
         txtTongTien.setText("0.0");
+        // gọi lại hàm để dữ liệu được cập nhập
         fillTienThuaChuyenKhoan();
         fillTienThuaTienMat();
+        // lấy ra hoá đơn response đang chọn
         int index = tbHoaDon.getSelectedRow();
         HoaDonResponse hdr = lstHoaDonResponses.get(index);
         lbMaHDThanhToan.setText(hdr.getMaHoaDon());
+        // con vớt về hoá đơn
         HoaDon hd = (HoaDon) hds.getOne(lbMaHDThanhToan.getText());
+        // lấy ra những giao dịch có trong hoá đơn đã được chọn
         List<GiaoDich> giaoDichs = gds2.getTheoHoaDon(hd);
 //        lbSoBan.setText(hd.getBan().getMaBan().toString());
+        // nếu hoá đơn đang chọn có trạng thái là dang chờ thanh toán thì set check trangthaiHD = 0
+        //, và check món ăn = 0 và fill mã HD lên label
+        // ngược lại nếu hd đã thanh toán hoặc đã huỷ thì check TrangTHaiHD = 1 và fill rỗng lên ô tếch phiu mã HD
         if (hd.getTrangThai() == 0) {
             checkTrangThaiHD = 0;
             checkMonAn = 0;
@@ -715,6 +736,7 @@ public class Form_Home extends javax.swing.JPanel {
         }
 //        txtTienMat.setText("");
 //        txtChuyenKhoan.setText("");
+        // để fill hình thức thanh toán và số tiền
         for (GiaoDich giaoDich : giaoDichs) {
             if (giaoDich.getHinhThucThanhToan().equals("Chuyển khoản")) {
                 txtChuyenKhoan.setText(giaoDich.getSoTienThanhToan().toString());
@@ -723,6 +745,7 @@ public class Form_Home extends javax.swing.JPanel {
                 txtTienMat.setText(giaoDich.getSoTienThanhToan().toString());
             }
         }
+        // show data hdct theo hd đang chọn
         lstHDCTResponses = hdctResponseService.getAll(hd);
         showDataHDCT(lstHDCTResponses);
         fillTongTien();
@@ -730,14 +753,16 @@ public class Form_Home extends javax.swing.JPanel {
 
     private void tbBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBanMouseClicked
         // TODO add your handling code here:
+        // lấy ra bàn đang chọn và fill mã bàn lên label
         int index = tbBan.getSelectedRow();
         BanResponse banResponse = lstBanResponses.get(index);
         lbSoBan.setText(banResponse.getMaBan().toString());
-        checkTaoHD = 0;
     }//GEN-LAST:event_tbBanMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
         // TODO add your handling code here:
+        // lấy dữ liệu từ ô tếch phiu tiền mặt và chuyển khoản
+        // lếu ô tếch phiuu rỗng thì set dữ liệu được lấy về = 0
         String tienMat = txtTienMat.getText();
         String chuyenKhoan = txtChuyenKhoan.getText();
         if ("".equals(tienMat)) {
@@ -746,6 +771,7 @@ public class Form_Home extends javax.swing.JPanel {
         if ("".equals(chuyenKhoan)) {
             chuyenKhoan = "0";
         }
+        //check trường hợp
         if ("".equals(lbMaHDThanhToan.getText())) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn hoá đơn chưa thanh toán");
         } else if (cbChuyenKhoan.isSelected() == false && cbTienMat.isSelected() == false) {
@@ -754,27 +780,40 @@ public class Form_Home extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Chưa đủ tiền");
         } else {
             String hinhThucThanhToan = "";
+            // lấy tổng tiền từ ô tếch phiu và ép kiểu
             Double tongTien = Double.valueOf(txtTongTien.getText());
+            // gọi hàm lấy ngày từ máy tính
             String ngayThanhToan = new HoaDonUtil().layNgay();
+            // get ont bàn lấy mã từ label mã bàn
             Ban ban = (Ban) banService.getOne(lbSoBan.getText());
+            // set trạng thái = 0 cho bàn đã getone về
             ban.setTrangThai(0);
             //fix cuwnsg nv
             // NhanVien nv = (NhanVien) nvs.getOne(lbNhanVien.getText());
             NhanVien nv = (NhanVien) nvs.getOne("NV1");
+            // get one hoá đơn theo lable mã HD
             HoaDon hd = (HoaDon) hds.getOne(lbMaHDThanhToan.getText());
+            // set trạng thái của hoá đơn get one được 
             hd.setTrangThai(1);
 //            hd.setBan(ban);
             hd.setNhanVien(nv);
             hd.setTongTien(BigDecimal.valueOf(tongTien));
             hd.setNgayThanhToan(Date.valueOf(ngayThanhToan));
+            // check trường hợp ô checkBox
             if (cbTienMat.isSelected() && cbChuyenKhoan.isSelected()) {
+                // nếu cả 2 check box cùng chọn thì add 2 dữ liệu vào bảng giao dịch
                 GiaoDich gd = new GiaoDich(null, hd, "Tiền mặt", BigDecimal.valueOf(Double.valueOf(tienMat)));
+                // add giao dịch với ô check box tiền mặt
                 String addGD = (String) gds.add(gd);
                 GiaoDich gd1 = new GiaoDich(null, hd, "Chuyển khoản", BigDecimal.valueOf(Double.valueOf(chuyenKhoan)));
+                // add giao dịch với ô check box chuyển khoản
                 String addGD1 = (String) gds.add(gd1);
+                // update lại hoá đơn
                 String addHD = (String) hds.update(hd, lbMaHDThanhToan.getText());
+                // up date lại bàn
                 String setTrangThaiBan = (String) banService.update(ban, ban.getMaBan().toString());
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+                // check xem đang chọn radio nào thì hiện thị đúng dữ liệu của radio đấy
                 if (checkRdo == 0) {
                     lstHoaDonResponses = hoaDonResponseService.getAll();
                     showDataHoaDon(lstHoaDonResponses);
@@ -788,16 +827,21 @@ public class Form_Home extends javax.swing.JPanel {
                     lstHoaDonResponses = hoaDonResponseService.getByTrangThai(2);
                     showDataHoaDon(lstHoaDonResponses);
                 }
+                // show lại data bàn
                 lstBanResponses = banResponseService.getAll();
                 showDataBan(lstBanResponses);
                 return;
             } else if (cbChuyenKhoan.isSelected()) {
                 hinhThucThanhToan = "Chuyển khoản";
                 GiaoDich gd = new GiaoDich(null, hd, hinhThucThanhToan, BigDecimal.valueOf(Double.valueOf(chuyenKhoan)));
+                // add giao dịch chuyển khoản
                 String addGD = (String) gds.add(gd);
+                // update lại hd
                 String addHD = (String) hds.update(hd, lbMaHDThanhToan.getText());
+                //update lại bàn
                 String setTrangThaiBan = (String) banService.update(ban, ban.getMaBan().toString());
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+                // check xem đang chọn radio nào thì hiện thị đúng dữ liệu của radio đấy
                 if (checkRdo == 0) {
                     lstHoaDonResponses = hoaDonResponseService.getAll();
                     showDataHoaDon(lstHoaDonResponses);
@@ -811,16 +855,21 @@ public class Form_Home extends javax.swing.JPanel {
                     lstHoaDonResponses = hoaDonResponseService.getByTrangThai(2);
                     showDataHoaDon(lstHoaDonResponses);
                 }
+                // show lại data bàn
                 lstBanResponses = banResponseService.getAll();
                 showDataBan(lstBanResponses);
                 return;
             } else {
                 hinhThucThanhToan = "Tiền mặt";
                 GiaoDich gd = new GiaoDich(null, hd, hinhThucThanhToan, BigDecimal.valueOf(Double.valueOf(tienMat)));
+                // add giao dịch tiền mặt
                 String addGD = (String) gds.add(gd);
+                // update HD
                 String addHD = (String) hds.update(hd, lbMaHDThanhToan.getText());
+                //UPdate bàn
                 String setTrangThaiBan = (String) banService.update(ban, ban.getMaBan().toString());
                 JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+                // check xem đang chọn radio nào thì hiện thị đúng dữ liệu của radio đấy
                 if (checkRdo == 0) {
                     lstHoaDonResponses = hoaDonResponseService.getAll();
                     showDataHoaDon(lstHoaDonResponses);
@@ -834,15 +883,17 @@ public class Form_Home extends javax.swing.JPanel {
                     lstHoaDonResponses = hoaDonResponseService.getByTrangThai(2);
                     showDataHoaDon(lstHoaDonResponses);
                 }
+                //show lại data bàn
                 lstBanResponses = banResponseService.getAll();
                 showDataBan(lstBanResponses);
             }
 
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnThanhToanActionPerformed
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+    private void btnTaoHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonActionPerformed
         // TODO add your handling code here:
+        // check lb mã bàn rỗng thì k cho tạo
         if ("".equals(lbSoBan.getText())) {
             JOptionPane.showMessageDialog(this, "Chọn bàn trước");
         } else {
@@ -850,15 +901,22 @@ public class Form_Home extends javax.swing.JPanel {
             String maHD = hoaDonUtil.zenMaThuyDuong(listHD);
             String ngayTao = new HoaDonUtil().layNgay();
             String ngayThanhToan = new HoaDonUtil().layNgay();
+            
+            // fixx cứng nv
             NhanVien nhanVien = (NhanVien) nvs.getOne("NV1");
+            // lấy bàn theo mã bàn lấy từ label mã bàn
             Ban ban = (Ban) banService.getOne(lbSoBan.getText());
             if (ban.getTrangThai() == 1) {
                 JOptionPane.showMessageDialog(this, "Bàn đang có khách");
             } else {
+                // set bàn đang có khách
                 ban.setTrangThai(1);
                 HoaDon hd = new HoaDon(null, maHD, nhanVien, null, ngayTao, Date.valueOf(ngayThanhToan), null, null, 0);
+                //update lại trạng thái bàn
                 String setTrangThaiBan = (String) banService.update(ban, ban.getMaBan().toString());
+                // tạo hd
                 JOptionPane.showMessageDialog(this, hds.add(hd));
+                // check xem đang ở radio nào thì show dữ liệu của radio đấy
                 if (checkRdo == 0) {
                     lstHoaDonResponses = hoaDonResponseService.getAll();
                     showDataHoaDon(lstHoaDonResponses);
@@ -876,7 +934,7 @@ public class Form_Home extends javax.swing.JPanel {
                 showDataBan(lstBanResponses);
             }
         }
-    }//GEN-LAST:event_jButton11ActionPerformed
+    }//GEN-LAST:event_btnTaoHoaDonActionPerformed
 
     private void cbTienMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTienMatActionPerformed
         if (cbTienMat.isSelected()) {
@@ -909,8 +967,10 @@ public class Form_Home extends javax.swing.JPanel {
 
     private void fillTienThuaChuyenKhoan() {
 //        txtTienMat.setText("0");
+        // lấy dữ liệut ừ ô tếch phiu
         String tienMat = txtTienMat.getText();
         String chuyenKhoan = txtChuyenKhoan.getText();
+        // nếu dữ liệu rỗng thì set ngầm dữ liệu lấy về bằng = 0
         if ("".equals(tienMat)) {
             tienMat = "0";
         }
@@ -1021,12 +1081,12 @@ public class Form_Home extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnTaoHoaDon;
+    private javax.swing.JButton btnThanhToan;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cbChuyenKhoan;
     private javax.swing.JCheckBox cbTienMat;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
