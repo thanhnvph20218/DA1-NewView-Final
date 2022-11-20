@@ -606,8 +606,14 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtTienMat">
+              <Events>
+                <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtTienMatCaretUpdate"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtChuyenKhoan">
+              <Events>
+                <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtChuyenKhoanCaretUpdate"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="txtTongTien">
             </Component>

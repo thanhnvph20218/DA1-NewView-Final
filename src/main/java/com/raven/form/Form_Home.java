@@ -104,7 +104,7 @@ public class Form_Home extends javax.swing.JPanel {
 //        table.addRow(new Object[]{"Kevin Pietersen", "kevinpietersen@gmail.com", "Admin", "25 Apr,2018", StatusType.PENDING});
         tbHoaDon.setModel(dtmHoaDon);
         tbHoaDonCT.setModel(dtmHoaDonCT);
-        tbHoaDonCT.setModel(dtmBan);
+        tbBan.setModel(dtmBan);
         String headerHoaDon[] = {"STT", "MÃ HĐ", "MÃ KH", "Ngày Tạo", "Bàn", "Trạng Thái", "Ghi Chú"};
         String headerHoaDonCT[] = {"STT", "Mã món ăn", "Tên món ăn", "Giá món ăn", "Số lượng món ăn", "Mã combo", "Tên combo", "Giá combo", "Số lượng combo"};
         String headerBan[] = {"STT", "Mã Bàn", "Số lượng chỗ ngồi", "Khu vực", "Trạng thái"};
@@ -122,7 +122,8 @@ public class Form_Home extends javax.swing.JPanel {
         showDataHDCT(lstHDCTResponses);
         // btnDoAn.setBackground(Color.GRAY);
         txtTienMat.setEnabled(false);
-        txtTienMat.setEnabled(false);
+        txtChuyenKhoan.setEnabled(false);
+        txtTienThua.setText("0");
         // lbNhanVien.setText(nv.getMa());
     }
 
@@ -298,6 +299,18 @@ public class Form_Home extends javax.swing.JPanel {
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("Chuyển khoản:");
+
+        txtTienMat.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtTienMatCaretUpdate(evt);
+            }
+        });
+
+        txtChuyenKhoan.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtChuyenKhoanCaretUpdate(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel15.setText("Loại Thanh Toán:");
@@ -682,6 +695,8 @@ public class Form_Home extends javax.swing.JPanel {
 
     private void tbHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHoaDonMouseClicked
         // TODO add your handling code here:
+        txtTienThua.setText("0.0");
+        txtTongTien.setText("0.0");
         fillTienThuaChuyenKhoan();
         fillTienThuaTienMat();
         int index = tbHoaDon.getSelectedRow();
@@ -698,8 +713,8 @@ public class Form_Home extends javax.swing.JPanel {
             checkTrangThaiHD = 1;
             lbMaHDThanhToan.setText("");
         }
-        txtTienMat.setText("");
-        txtChuyenKhoan.setText("");
+//        txtTienMat.setText("");
+//        txtChuyenKhoan.setText("");
         for (GiaoDich giaoDich : giaoDichs) {
             if (giaoDich.getHinhThucThanhToan().equals("Chuyển khoản")) {
                 txtChuyenKhoan.setText(giaoDich.getSoTienThanhToan().toString());
@@ -753,9 +768,9 @@ public class Form_Home extends javax.swing.JPanel {
             hd.setTongTien(BigDecimal.valueOf(tongTien));
             hd.setNgayThanhToan(Date.valueOf(ngayThanhToan));
             if (cbTienMat.isSelected() && cbChuyenKhoan.isSelected()) {
-                GiaoDich gd = new GiaoDich(null, hd, "Tiền mặt", BigDecimal.valueOf(Double.valueOf(txtTienMat.getText())));
+                GiaoDich gd = new GiaoDich(null, hd, "Tiền mặt", BigDecimal.valueOf(Double.valueOf(tienMat)));
                 String addGD = (String) gds.add(gd);
-                GiaoDich gd1 = new GiaoDich(null, hd, "Chuyển khoản", BigDecimal.valueOf(Double.valueOf(txtChuyenKhoan.getText())));
+                GiaoDich gd1 = new GiaoDich(null, hd, "Chuyển khoản", BigDecimal.valueOf(Double.valueOf(chuyenKhoan)));
                 String addGD1 = (String) gds.add(gd1);
                 String addHD = (String) hds.update(hd, lbMaHDThanhToan.getText());
                 String setTrangThaiBan = (String) banService.update(ban, ban.getMaBan().toString());
@@ -778,7 +793,7 @@ public class Form_Home extends javax.swing.JPanel {
                 return;
             } else if (cbChuyenKhoan.isSelected()) {
                 hinhThucThanhToan = "Chuyển khoản";
-                GiaoDich gd = new GiaoDich(null, hd, hinhThucThanhToan, BigDecimal.valueOf(Double.valueOf(txtChuyenKhoan.getText())));
+                GiaoDich gd = new GiaoDich(null, hd, hinhThucThanhToan, BigDecimal.valueOf(Double.valueOf(chuyenKhoan)));
                 String addGD = (String) gds.add(gd);
                 String addHD = (String) hds.update(hd, lbMaHDThanhToan.getText());
                 String setTrangThaiBan = (String) banService.update(ban, ban.getMaBan().toString());
@@ -801,7 +816,7 @@ public class Form_Home extends javax.swing.JPanel {
                 return;
             } else {
                 hinhThucThanhToan = "Tiền mặt";
-                GiaoDich gd = new GiaoDich(null, hd, hinhThucThanhToan, BigDecimal.valueOf(Double.valueOf(txtTienMat.getText())));
+                GiaoDich gd = new GiaoDich(null, hd, hinhThucThanhToan, BigDecimal.valueOf(Double.valueOf(tienMat)));
                 String addGD = (String) gds.add(gd);
                 String addHD = (String) hds.update(hd, lbMaHDThanhToan.getText());
                 String setTrangThaiBan = (String) banService.update(ban, ban.getMaBan().toString());
@@ -835,14 +850,14 @@ public class Form_Home extends javax.swing.JPanel {
             String maHD = hoaDonUtil.zenMaThuyDuong(listHD);
             String ngayTao = new HoaDonUtil().layNgay();
             String ngayThanhToan = new HoaDonUtil().layNgay();
-//            NhanVien nhanVien = (NhanVien) nvs.getOne("NV02");
+            NhanVien nhanVien = (NhanVien) nvs.getOne("NV1");
             Ban ban = (Ban) banService.getOne(lbSoBan.getText());
             if (ban.getTrangThai() == 1) {
                 JOptionPane.showMessageDialog(this, "Bàn đang có khách");
             } else {
                 ban.setTrangThai(1);
+                HoaDon hd = new HoaDon(null, maHD, nhanVien, null, ngayTao, Date.valueOf(ngayThanhToan), null, null, 0);
                 String setTrangThaiBan = (String) banService.update(ban, ban.getMaBan().toString());
-                HoaDon hd = new HoaDon(null, maHD, nhanV, null, ngayTao, Date.valueOf(ngayThanhToan), null, null, 0);
                 JOptionPane.showMessageDialog(this, hds.add(hd));
                 if (checkRdo == 0) {
                     lstHoaDonResponses = hoaDonResponseService.getAll();
@@ -881,17 +896,32 @@ public class Form_Home extends javax.swing.JPanel {
             txtChuyenKhoan.setEnabled(false);
         }
     }//GEN-LAST:event_cbChuyenKhoanActionPerformed
+
+    private void txtTienMatCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtTienMatCaretUpdate
+        // TODO add your handling code here:
+        fillTienThuaTienMat();
+    }//GEN-LAST:event_txtTienMatCaretUpdate
+
+    private void txtChuyenKhoanCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtChuyenKhoanCaretUpdate
+        // TODO add your handling code here:
+        fillTienThuaChuyenKhoan();
+    }//GEN-LAST:event_txtChuyenKhoanCaretUpdate
+
     private void fillTienThuaChuyenKhoan() {
 //        txtTienMat.setText("0");
         String tienMat = txtTienMat.getText();
+        String chuyenKhoan = txtChuyenKhoan.getText();
         if ("".equals(tienMat)) {
             tienMat = "0";
         }
-        Double tienThua = 0.0;
-        Double chuyenKhoan = 0.0;
+        if ("".equals(chuyenKhoan)) {
+            chuyenKhoan = "0";
+        }
+        Double tienThua = Double.valueOf(txtTienThua.getText());
+//        Double chuyenKhoan = 0.0;
         try {
-            chuyenKhoan = Double.valueOf(txtTienMat.getText());
-            tienThua = (Double.valueOf(tienMat) + chuyenKhoan) - Double.valueOf(txtTongTien.getText());
+//            chuyenKhoan = Double.valueOf(txtChuyenKhoan.getText());
+            tienThua = (Double.valueOf(tienMat) + (Double.valueOf(chuyenKhoan))) - Double.valueOf(txtTongTien.getText());
         } catch (java.lang.NumberFormatException e) {
         }
         txtTienThua.setText(tienThua.toString());
@@ -899,15 +929,19 @@ public class Form_Home extends javax.swing.JPanel {
 
     private void fillTienThuaTienMat() {
 //        txtChuyenKhoan.setText("0");
-        String chuyenKhoan = txtTienMat.getText();
+        String chuyenKhoan = txtChuyenKhoan.getText();
+        String tienMat = txtTienMat.getText();
         if ("".equals(chuyenKhoan)) {
             chuyenKhoan = "0";
         }
-        Double tienThua = 0.0;
-        Double tienMat = 0.0;
+        if ("".equals(tienMat)) {
+            tienMat = "0";
+        }
+        Double tienThua = Double.valueOf(txtTienThua.getText());
+//        Double tienMat = 0.0;
         try {
-            tienMat = Double.valueOf(txtTienMat.getText());
-            tienThua = (tienMat + Double.valueOf(chuyenKhoan)) - Double.valueOf(txtTongTien.getText());
+//            tienMat = Double.valueOf(txtTienMat.getText());
+            tienThua = (Double.valueOf(tienMat) + Double.valueOf(chuyenKhoan)) - Double.valueOf(txtTongTien.getText());
         } catch (java.lang.NumberFormatException e) {
         }
         txtTienThua.setText(tienThua.toString());
