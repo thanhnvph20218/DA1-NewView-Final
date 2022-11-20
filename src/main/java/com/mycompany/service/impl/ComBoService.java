@@ -7,17 +7,20 @@ package com.mycompany.service.impl;
 import com.mycompany.domainModel.ComBo;
 import com.mycompany.domainModel.NhanVien;
 import com.mycompany.repository.impl.ComBoRepository;
+import com.mycompany.service.IComBoService;
 import java.math.BigDecimal;
 import java.util.List;
 import com.mycompany.service.ICommonService;
+import java.util.Random;
 
 /**
  *
  * @author Admin
  */
-public class ComBoService implements ICommonService<ComBo, String> {
+public class ComBoService implements ICommonService<ComBo, String>, IComBoService {
 
     private final com.mycompany.repository.ICommonRepository cbr = new ComBoRepository();
+    private ComBoRepository cb = new ComBoRepository();
 
     @Override
     public List<ComBo> getAll() {
@@ -55,11 +58,31 @@ public class ComBoService implements ICommonService<ComBo, String> {
             return "Xoá thất bại";
         }
     }
+
     public static void main(String[] args) {
         List<ComBo> test = new ComBoService().getAll();
         for (ComBo comBo : test) {
             System.out.println(comBo.toString());
         }
+    }
+
+    @Override
+    public List<ComBo> getAllByTrangThai(int trangThai) {
+        return cb.getAllByTrangThai(trangThai);
+    }
+
+    public String randomMaHoaDon() {
+        Random rd = new Random();
+        int ran = 0;
+        String ma = "";
+        while (true) {
+            ran = rd.nextInt(99999) + 1;
+            ma = "CB" + ran;
+            if (new ComBoService().getOne(ma) == null) {
+                break;
+            }
+        }
+        return ma;
     }
 
 }
