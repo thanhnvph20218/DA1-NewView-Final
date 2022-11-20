@@ -23,7 +23,7 @@ public class ChucVuRepository implements ICommonRepository<ChucVu, Boolean, Stri
 
     @Override
     public List<ChucVu> getAll() {
-        String hql = fromTable +"WHERE trangThai = 0";
+        String hql = fromTable;
         Query query = session.createQuery(hql);
         List<ChucVu> chucVus = query.getResultList();
         return chucVus;
@@ -56,7 +56,7 @@ public class ChucVuRepository implements ICommonRepository<ChucVu, Boolean, Stri
     @Override
     public Boolean update(ChucVu kh, String ma) {
         Transaction transaction = null;
-        String hql = "UPDATE " + fromTable + "SET ten = :ten "
+        String hql = "UPDATE " + fromTable + "SET ten = :ten, trangThai = :trangThai  "
                 + "WHERE ma = :ma";
         int check = 0;
         try {
@@ -64,6 +64,7 @@ public class ChucVuRepository implements ICommonRepository<ChucVu, Boolean, Stri
             session.clear();
             Query query = session.createQuery(hql);
             query.setParameter("ten", kh.getTen());
+            query.setParameter("trangThai", kh.getTrangThai());
             query.setParameter("ma", ma);
             check = query.executeUpdate();
             transaction.commit();
@@ -76,7 +77,7 @@ public class ChucVuRepository implements ICommonRepository<ChucVu, Boolean, Stri
     @Override
     public Boolean remove(String ma) {
         Transaction transaction = null;
-        String hql = "UPDATE " + fromTable +"SET trangThai = 1"
+        String hql = "UPDATE " + fromTable + "SET trangThai = 1"
                 + "WHERE ma = :ma";
         int check = 0;
         try {

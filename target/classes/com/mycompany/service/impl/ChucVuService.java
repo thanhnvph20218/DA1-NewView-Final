@@ -48,10 +48,10 @@ public class ChucVuService implements com.mycompany.service.ICommonService<ChucV
     @Override
     public String remove(String ma) {
         if ((Boolean) cvs.remove(ma)) {
-            return "Xoá thành công";
+            return "Chuyển trạng thái thành công";
         } else {
-            return "Xoá thất bại";
+            return "Chuyển trạng thái thành công";
         }
     }
-    
+
 }
