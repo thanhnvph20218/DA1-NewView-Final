@@ -119,24 +119,7 @@ public class Form_Combo extends javax.swing.JPanel {
         txtTen.setText("");
         cbbMaNhanVien.setSelectedIndex(0);
         cbbLoaiMonAn.setSelectedIndex(0);
-    }
-
-    private String add(ComBo comBo) {
-        if (txtMa.getText().isEmpty()) {
-            return "mã không được để trống";
-        } else if (txtDonGia.getText().isEmpty()) {
-            return "đơn giá không được để trống";
-        } else if (txtTen.getText().isEmpty()) {
-            return "tên không được để trống";
-        } else if (!txtMa.getText().matches("[a-z A-Z0-9]+")) {
-            return "mã không được là ký tự";
-        } else if (!txtTen.getText().matches("[a-z A-Z0-9]+")) {
-            return "tên không được là ký tự";
-        } else if (!txtDonGia.getText().matches("[0-9]+")) {
-            return "đơn giá phải là số";
-        } else {
-            return "Phajm sonw cuối if bậc thang ko dùng else";
-        }
+        rdoApDung.setSelected(true);
     }
 
     @SuppressWarnings("unchecked")
