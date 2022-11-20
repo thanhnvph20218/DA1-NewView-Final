@@ -92,4 +92,10 @@ public class ChucVuRepository implements ICommonRepository<ChucVu, Boolean, Stri
         return check > 0;
     }
 
+    public List<ChucVu> getChucVuActive() {
+        String hql = fromTable + " WHERE trangThai = 0";
+        Query query = session.createQuery(hql);
+        List<ChucVu> chucVus = query.getResultList();
+        return chucVus;
+    }
 }

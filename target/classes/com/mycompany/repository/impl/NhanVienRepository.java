@@ -105,7 +105,7 @@ public class NhanVienRepository implements ICommonRepository<NhanVien, Boolean, 
             Transaction transaction = session.getTransaction();
             transaction.begin();
             try {
-                Query query = session.createQuery("DELETE FROM NhanVien WHERE ma = :maNV");
+                Query query = session.createQuery("UPDATE NhanVien SET trangThai = 1 WHERE ma = :maNV");
                 query.setParameter("maNV", ma);
                 check = query.executeUpdate();
                 transaction.commit();

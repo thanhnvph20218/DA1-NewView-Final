@@ -16,6 +16,7 @@ import com.mycompany.repository.ICommonRepository;
 public class ChucVuService implements com.mycompany.service.ICommonService<ChucVu, String> {
 
     private final ICommonRepository cvs = new ChucVuRepository();
+    private ChucVuRepository cvRep = new ChucVuRepository();
 
     @Override
     public List<ChucVu> getAll() {
@@ -54,4 +55,7 @@ public class ChucVuService implements com.mycompany.service.ICommonService<ChucV
         }
     }
 
+    public List<ChucVu> getChucVuActive() {
+        return cvRep.getChucVuActive();
+    }
 }
