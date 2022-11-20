@@ -23,7 +23,7 @@ public class KhuVucRepository implements ICommonRepository<KhuVuc, Boolean, Stri
     public List<KhuVuc> getAll() {
         List<KhuVuc> listKV = new ArrayList<>();
         try ( Session session = HibernateUtil.getFactory().openSession()) {
-            Query query = session.createQuery("FROM KhuVuc WHERE trangThai = 0");
+            Query query = session.createQuery("FROM KhuVuc");
             listKV = query.getResultList();
         } finally {
             return listKV;
@@ -92,7 +92,7 @@ public class KhuVucRepository implements ICommonRepository<KhuVuc, Boolean, Stri
             Transaction transaction = session.getTransaction();
             transaction.begin();
             try {
-                Query query = session.createQuery("DELETE FROM KhuVuc WHERE maKV = :ma");
+                Query query = session.createQuery("UPDATE KhuVuc SET trangThai = 1 WHERE maKV = :ma");
                 query.setParameter("ma", ma);
                 check = query.executeUpdate();
                 transaction.commit();
